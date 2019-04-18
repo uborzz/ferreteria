@@ -2,14 +2,7 @@
 import json
 import requests
 from datetime import datetime
-from threading import Thread
-from apscheduler.schedulers.background import BackgroundScheduler
-from bson import json_util
 from flask import Flask, render_template, Response, request, jsonify
-from pprint import pprint
-from pymongo import MongoClient
-from pymongo.errors import BulkWriteError
-import xmltodict
 import _configs as cfg
 from flask_cors import CORS
 
@@ -65,7 +58,7 @@ def noticias():
 @app.route('/gettest')
 def get_test():
     return Response(
-        json_util.dumps({
+        json.dumps({
             "result": "Ok"
         }),
         mimetype='application/json'
@@ -85,7 +78,7 @@ def post_test():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 
 # if __name__ == '__main__':
 #     app.run(ssl_context = 'adhoc')
