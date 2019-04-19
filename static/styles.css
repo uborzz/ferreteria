@@ -1,63 +1,118 @@
-.checkbox label:after,
-.radio label:after {
-    content: '';
-    display: table;
-    clear: both;
-}
-
-.checkbox .cr,
-.radio .cr {
+  body {
     position: relative;
-    display: inline-block;
-    border: 1px solid #a9a9a9;
-    border-radius: .25em;
-    width: 1.3em;
-    height: 1.3em;
-    float: left;
-    margin-right: .5em;
+    height:100%;
+  }
+  html {
+  }
+
+  .affix {
+    top:0;
+    width: 100%;
+    z-index: 9999 !important;
+  }
+  .navbar {
+    margin-bottom: 0px;
+    border-radius: 0px;
+  }
+
+    .navbar .navbar-nav {
+      display: inline-block;
+      float: none;
+      vertical-align: top;
+    }
+
+    .navbar .navbar-collapse {
+      text-align: center;
+    }
+  .affix ~ .container-fluid {
+   position: relative;
+   top: 50px;
+  }
+
+  .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+.centered {
+    text-align: center;
+}
+.bold {
+    font-weight: bold;
 }
 
-.radio .cr {
-    border-radius: 50%;
+    .parent {
+
+      display: flex;
+      padding: 0;
+    }
+
+    .child {
+      width: 1000px;
+      margin: auto;  /* Magic! */
+    }
+
+
+.h-100 {
+    height: 100%;
 }
 
-.checkbox .cr .cr-icon,
-.radio .cr .cr-icon {
-    position: absolute;
-    font-size: .8em;
-    line-height: 0;
-    top: 50%;
-    left: 20%;
+#logo, #menu-logo {
+    font-weight: bold;
 }
 
-.radio .cr .cr-icon {
-    margin-left: 0.04em;
+#titulo {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding-top: 1px;
+    padding-bottom: 8px;
+    background: rgba(0,0,0,0.3);
+    color: whitesmoke;
 }
 
-.checkbox label input[type="checkbox"],
-.radio label input[type="radio"] {
+@media only screen and (max-width: 767px) {
+  #menu-logo {
     display: none;
+  }
+}
+@media only screen and (min-width: 768px) {
+  #logo {
+    display: none;
+  }
 }
 
-.checkbox label input[type="checkbox"] + .cr > .cr-icon,
-.radio label input[type="radio"] + .cr > .cr-icon {
-    transform: scale(3) rotateZ(-20deg);
-    opacity: 0;
-    transition: all .3s ease-in;
+#sticky {
+  width:100%;
+  padding:10px;
+  padding-bottom:0px;
+  background:#222;
+            //position:fixed;
+  color:whitesmoke;
+  text-align:left;
+  //bottom:0;          /*to the bottom of the body*/
+  //left:0;            /*and to the left of the body.*/
 }
 
-.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
-.radio label input[type="radio"]:checked + .cr > .cr-icon {
-    transform: scale(1) rotateZ(0deg);
-    opacity: 1;
+#sticky a {
+    color: #9d9d9d;
+}
+#sticky a:hover {
+    color: whitesmoke;
+    text-decoration: none;
 }
 
-.checkbox label input[type="checkbox"]:disabled + .cr,
-.radio label input[type="radio"]:disabled + .cr {
-    opacity: .5;
+.fixed {
+  position:fixed;    /*Here's what sticks it*/
 }
 
-.seguida {
-    margin-top: 4px;
-    margin-bottom: 32px;
+.navbar-header {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.contenido {
+    padding: 10px;
+    padding-top: 25px;
+    height: 100%;
+    margin: 0px;
 }
