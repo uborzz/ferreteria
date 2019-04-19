@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-    <title>Ferreteria Marcial</title>
+<title>Index</title>
 {% endblock %}
 
 {% block content %}
@@ -10,8 +10,58 @@
 
 </script>
 
-<div class="container">
-    <h1>CUERPO PAGINA</h1>
-    <p>Patatin patatan.</p>
+<div id="home" class="container-fluid">
+    <div class="parent">
+        <div class="child">
+            <div class="row contenido">
+            <h1>Ferretería Marcial</h1>
+            <div class="row">
+                <div class="col-sm-7">
+                    <p> Una tienda muuuu bonitua patatin y patatán.</p>
+                    <br>
+                    <h4>Últimas Notificaciones</h4>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="display: none"></div>
+                        <div class="panel-body">Contenido a actualizar por funcion</div>
+                    </div>
+                    <h4> Horario habitual </h4>
+
+                  <table class="table table-stripped table-dark centered">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col" class="centered">Días</th>
+                      <th scope="col" class="centered">Mañana</th>
+                      <th scope="col" class="centered">Tarde</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Lunes-Viernes</td>
+                      <td>9:30 - 13:30</td>
+                      <td>16:30 - 20:30</td>
+                    </tr>
+                    <tr>
+                      <td>Sábados</td>
+                      <td>10:00 - 13:30</td>
+                      <td>17:00 - 20:00</td>
+                    </tr>
+                    <tr>
+                      <td>Domingo</td>
+                      <td colspan="2" >Descanso</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+                <div class="col-sm-5 centered">
+                    <img src="static/images/campo.jpg" class="img-responsive img-rounded" alt="Tienda">
+                    <br>
+                    <p>Para saber dónde puedes encontrarnos...</p>
+                    <p>Datos de contacto?</p>
+                    <a href="/localizacion" class="btn btn-default">Localización</a>
+                    <a href="/contacto" class="btn btn-default">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

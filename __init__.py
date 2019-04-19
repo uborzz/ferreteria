@@ -45,14 +45,30 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
+@app.route('/contacto')
+def contacto():
+    return render_template('contacto.html')
 
 
-@app.route('/noticias')
-def noticias():
-    return render_template('noticias.html')
+@app.route('/productos')
+def productos():
+    return render_template('productos.html')
+
+
+@app.route('/promociones')
+def promociones():
+    return render_template('promociones.html')
+
+
+@app.route('/localizacion')
+def localizacion():
+    return render_template('localizacion.html')
+
+
+@app.route('/test')
+def html_test():
+    return render_template('test_footer.html')
+
 
 
 @app.route('/gettest')
@@ -78,7 +94,7 @@ def post_test():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
 
 # if __name__ == '__main__':
 #     app.run(ssl_context = 'adhoc')
