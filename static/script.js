@@ -5,25 +5,48 @@
 //	$( this ).parent( 'li' ).addClass( 'active' );
 //});
 
-//// When the user scrolls the page, execute myFunction
-//window.onscroll = function() {myFunction()};
-//
-//// Get the footer
-//var footer = $( "#sticky" );
-//
-//// Get the offset position of the navbar
-//var sticky = footer.offsetTop;
-//
-//// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
-//function myFunction() {
-//  if (window.pageYOffset >= sticky) {
-//    footer.classList.add("fixed")
-//    console.log(">>>")
-//  } else {
-//    footer.classList.remove("fixed");
-//    console.log("<<<")
-//  }
-//}
+
+// //// When the user scrolls the page, execute myFunction
+window.onscroll = function() {ajusta_footer()};
+
+// probando on resize.
+window.onresize = function(){ajusta_footer()};
+
+//on load
+$(document).ready(ajusta_footer);
+
+
+// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function ajusta_footer() {
+
+  // Get the footer
+  var footer = $( "#sticky" )[0];
+
+  //Get window size
+  var window_size = window.innerHeight
+
+  //Get page size
+  var page_size = $("body")[0].offsetHeight
+
+  //Get footer size
+  var footer_size = footer.clientHeight
+  
+  // Calcula espacio sin ocupar
+  var espacio_libre = window_size - page_size
+  
+  // console.log("Window Height " + window_size)
+  // console.log("Page Height " + page_size)
+  // console.log("Footer Height " + footer_size)
+  // console.log("Resta Window-Page = " + espacio_libre)
+  
+  if ((espacio_libre) >= footer_size) {
+    footer.classList.add("autofixed")
+    console.log(">>>")
+  } else {
+    footer.classList.remove("autofixed");
+    console.log("<<<")
+  }
+}
 //
 //
 
