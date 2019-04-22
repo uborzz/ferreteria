@@ -49,6 +49,7 @@
                     <li class="{% if request.path=='/promociones' %}active{% endif %}"><a href="/promociones">Promociones</a></li>
                     <li class="{% if request.path=='/localizacion' %}active{% endif %}"><a href="/localizacion">¿Dónde estamos?</a></li>
                     <li class="{% if request.path=='/contacto' %}active{% endif %}"><a href="/contacto">Contáctanos</a></li>
+                    <li class="{% if request.path=='/admin' %}active{% endif %}"><a href="/admin">Admin</a></li>
                 </ul>
             </div>
         </div>
@@ -58,7 +59,7 @@
 {% block content %}{% endblock %}
 
 
-<footer id="sticky">
+<footer id="sticky" style="visibility: hidden">
     <div class="parent-footer">
         <div class="child-footer">
             <div class="row">

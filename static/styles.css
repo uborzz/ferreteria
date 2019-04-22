@@ -104,12 +104,20 @@
  .contenido {
      padding: 10px;
      padding-top: 25px;
-     padding-bottom: 20px;
+     padding-bottom: 60px;
      height: 100%;
      margin: 0px;
 }
- .products > ul > li {
-     list-style-type: square;
+ #productos li {
+     list-style-type: circle;
+}
+ #productos table {
+    margin-left:auto;
+    margin-right:auto;
+}
+ #productos td {
+    padding-left: 30px;
+    padding-right: 30px;
 }
  #map {
      height: 400px;

@@ -38,7 +38,9 @@ function ajusta_footer() {
   // console.log("Page Height " + page_size)
   // console.log("Footer Height " + footer_size)
   // console.log("Resta Window-Page = " + espacio_libre)
-  
+
+  footer.style.visibility = 'visible';
+
   if ((espacio_libre) >= footer_size) {
     footer.classList.add("autofixed")
     console.log(">>>")
