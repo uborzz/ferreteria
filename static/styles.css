@@ -1,5 +1,5 @@
  body {
-     position: relative;
+     position: static;
      height:100%;
 }
  .affix {
@@ -7,6 +7,7 @@
      width: 100%;
      z-index: 9999 !important;
 }
+
  .navbar {
      margin-bottom: 0px;
      border-radius: 0px;
@@ -21,12 +22,9 @@
 }
  .affix ~ .container-fluid {
      position: relative;
-     top: 50px;
+     top: 75px;
 }
- .container-fluid {
-     padding-left: 0;
-     padding-right: 0;
-}
+
  .centered {
      text-align: center;
 }
@@ -40,8 +38,6 @@
  .child {
      width: 1000px;
      margin: auto;
-
-    /* Magic! */
 }
  .parent-footer {
      display: flex;
@@ -58,14 +54,18 @@
  #logo, #menu-logo {
      font-weight: bold;
 }
+
  #titulo {
      margin-top: 25px;
      margin-bottom: 25px;
+     margin-right:-15px;
+     margin-left:-15px;
      padding-top: 1px;
      padding-bottom: 8px;
      background: rgba(0,0,0,0.3);
      color: whitesmoke;
 }
+
  @media only screen and (max-width: 767px) {
      #menu-logo {
          display: none;
@@ -84,6 +84,7 @@
      color:whitesmoke;
      text-align:left;
 }
+
  #sticky a {
      color: #9d9d9d;
 }
@@ -145,4 +146,9 @@
 
 .espaciada {
     margin-bottom: 15px;
+}
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
 }

@@ -15,22 +15,17 @@ window.onresize = function(){ajusta_footer()};
 //on load
 $(document).ready(ajusta_footer);
 
-
 // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
 function ajusta_footer() {
-
-  // Get the footer
+ // Get the footer
   var footer = $( "#sticky" )[0];
-
   //Get window size
   var window_size = window.innerHeight
 
   //Get page size
   var page_size = $("body")[0].offsetHeight
-
   //Get footer size
   var footer_size = footer.clientHeight
-  
   // Calcula espacio sin ocupar
   var espacio_libre = window_size - page_size
   
@@ -48,6 +43,7 @@ function ajusta_footer() {
     footer.classList.remove("autofixed");
     console.log("<<<")
   }
+
 }
 //
 //

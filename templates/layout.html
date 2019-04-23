@@ -3,6 +3,7 @@
 <head>
     {% block heading %}{% endblock %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<meta name="viewport" content="width=100%; initial-scale=1; maximum-scale=1; minimum-scale=1; user-scalable=no;"-->
     <!--<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">-->
@@ -19,18 +20,17 @@
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
 
-<div class="container-fluid" style="background: url(static/images/metal-bolts.jpg)">
-
-            <div class="row centered">
-                <div class="col" id="titulo">
-                    <h1 class="bold">Ferretería Marcial</h1>
-                    <h4>C/ del Prado 30 - Isla Cristina</h4>
-                    <h4>Tlf: 959 33 07 90</h4>
-                </div>
+<div class="container-fluid" id="container-titulo" style="background: url(static/images/metal-bolts.jpg)">
+    <div class="row centered">
+        <div class="col" id="titulo">
+            <h1 class="bold">Ferretería Marcial</h1>
+            <h4>C/ del Prado 30 - Isla Cristina</h4>
+            <h4>Tlf: 959 33 07 90</h4>
+        </div>
     </div>
-
 </div>
 
+<!--<nav class="navbar navbar-inverse" id="navbar">-->
 <nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -44,7 +44,7 @@
         <div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li class="{% if request.path=='/' %}active{% endif %}" id="menu-logo"><a href="/">Ferretería Marcial</a></li>
+                    <li class="{% if request.path=='/' %}active{% endif %}" id="menu-logo"><a href="/">Home</a></li>
                     <li class="{% if request.path=='/productos' %}active{% endif %}"><a href="/productos">Productos</a></li>
                     <li class="{% if request.path=='/promociones' %}active{% endif %}"><a href="/promociones">Promociones</a></li>
                     <li class="{% if request.path=='/localizacion' %}active{% endif %}"><a href="/localizacion">¿Dónde estamos?</a></li>
