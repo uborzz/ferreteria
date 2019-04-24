@@ -126,15 +126,16 @@
 
  #productos li {
      list-style-type: circle;
-}
+     }
+
+     #productos ul {
+     padding-left: 23   px;}
+
  #productos table {
     margin-left:auto;
     margin-right:auto;
 }
-// #productos td {
-    padding-left: 30px;
-    padding-right: 30px;
-}
+
  #map {
      height: 400px;
     /* The height is 400 pixels */
