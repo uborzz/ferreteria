@@ -14,69 +14,73 @@
     <div class="parent">
         <div class="child">
             <div class="contenido">
-            <h1>Contáctanos</h1>
+                <h1 class="centered">Formulario de contacto</h1>
                 <div class="row">
-                    <div class="col-sm-9">
-                        <p>Si tu consulta no te corre demasiada prisa, puedes enviarnos tu pregunta rellenando el siguiente formulario.</p>
-                        <p>Te responderemos al email facilitado.</p>
-                        <!--<form action="https://formspree.io/email@domain.tld" method="POST">-->
-                          <!--<input type="text" name="name">-->
-                          <!--<input type="email" name="_replyto">-->
-                          <!--<input type="submit" value="Send">-->
-                        <!--</form>-->
-
-<form id="contact-form" method="post" action="https://formspree.io/uborzz@gmail.com" role="form">
-
-    <div class="messages"></div>
-
-    <div class="controls">
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="form_name">Nombre *</label>
-                    <input id="form_name" type="text" name="name" class="form-control" placeholder="Escribe aquí tu nombre *" required="required" data-error="Necesario dar un nombre.">
-                    <div class="help-block with-errors"></div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="form_email">Email *</label>
-                    <input id="form_email" type="email" name="email" class="form-control" placeholder="Escribe aqui tu email *" required="required" data-error="Email no válido.">
-                    <div class="help-block with-errors"></div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label for="form_message">Mensaje *</label>
-                    <textarea id="form_message" name="message" class="form-control" placeholder="Texto de tu consulta :) *" rows="6" required="required" data-error="Te has olvidado de escribir el mensaje!"></textarea>
-                    <div class="help-block with-errors"></div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-9">
-                <p class="text-muted">
-                    <strong>*</strong> Todos los campos son requeridos.
-                </p>
-            </div>
-            <div class="col-md-3" style="text-align: right">
-                <input type="submit" class="btn btn-info btn-send" value="Enviar">
-            </div>
-        </div>
-    </div>
-
-</form>
-
-                    </div>
-                    <div class="col-sm-3 centered">
-                        <h4>Teléfono</h4>
+                    <div class="col-sm-3 centered" style="padding-top: 30px;">
+                        <a href="tel:959330790"> <img src="static/images/call.png" width="120"></a>
                         <a href="tel:959330790" class="link-sobre-blanco"><h2>959 33 07 90</h2></a>
                     </div>
+                    <div class="col-sm-9">
+                        <!--<form action="https://formspree.io/email@domain.tld" method="POST">-->
+                        <!--<input type="text" name="name">-->
+                        <!--<input type="email" name="_replyto">-->
+                        <!--<input type="submit" value="Send">-->
+                        <!--</form>-->
+
+                        <form id="contact-form" method="post" action="https://formspree.io/uborzz@gmail.com"
+                              role="form">
+
+                            <div class="messages"></div>
+
+                            <div class="controls">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="form_name">Nombre *</label>
+                                            <input id="form_name" type="text" name="name" class="form-control"
+                                                   placeholder="Escribe aquí tu nombre *" required="required"
+                                                   data-error="Necesario dar un nombre.">
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="form_email">Email *</label>
+                                            <input id="form_email" type="email" name="email" class="form-control"
+                                                   placeholder="Escribe aqui tu email *" required="required"
+                                                   data-error="Email no válido.">
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="form_message">Mensaje *</label>
+                                            <textarea id="form_message" name="message" class="form-control"
+                                                      placeholder="Texto de tu consulta :) *" rows="6"
+                                                      required="required"
+                                                      data-error="Te has olvidado de escribir el mensaje!"></textarea>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <p class="text-muted">
+                                            <strong>*</strong> Todos los campos son requeridos.
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3" style="text-align: right; padding-bottom:10px;">
+                                        <input type="submit" class="btn btn-info btn-send" value="Enviar">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-        </div>
+            </div>
         </div>
     </div>
 </div>

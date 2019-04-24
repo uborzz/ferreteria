@@ -13,12 +13,16 @@
 <div id="home" class="container-fluid">
     <div class="parent">
         <div class="child">
-            <div class="row contenido">
-                <h1>Ferretería Marcial</h1>
+            <div class="row multi-contenido">
+                <h1 class="centered">Ferretería Marcial</h1>
                 <div class="row">
-                    <div class="col-sm-7">
-                        <p> Una tienda muuuu bonitua patatin y patatán.</p>
+                    <div class="col-sm-5">
+                        <p> Una tienda muuuu bonitua patatin y patatán. Cerca de la estación de autobuses de Damas.</p>
                         <br>
+                        <img src="static/images/tienda.jpg" class="img-responsive img-rounded" alt="Tienda">
+
+                    </div>
+                    <div class="col-sm-7">
                         <h4>Últimas Notificaciones</h4>
                         <div class="panel panel-default">
                             <div class="panel-heading" style="display: none"></div>
@@ -26,7 +30,7 @@
                         </div>
                         <h4> Horario habitual </h4>
 
-                      <table class="table table-stripped table-dark centered">
+                      <table class="table table-stripped table-dark centered table-bordered">
                       <thead class="thead-dark">
                         <tr>
                           <th scope="col" class="centered">Días</th>
@@ -43,24 +47,115 @@
                         <tr>
                           <td>Sábados</td>
                           <td>09:30 - 13:30</td>
-                          <td>Descanso</td>
+                          <td>Cerrado</td>
                         </tr>
                         <tr>
                           <td>Domingo</td>
-                          <td colspan="2" >Descanso</td>
+                          <td colspan="2">Cerrado</td>
                         </tr>
                       </tbody>
                     </table>
                     </div>
-                    <div class="col-sm-5 centered">
-                        <img src="static/images/campo.jpg" class="img-responsive img-rounded" alt="Tienda">
-                        <br>
-                        <p>Para saber dónde puedes encontrarnos...</p>
-                        <p>Datos de contacto?</p>
-                        <a href="/localizacion" class="btn btn-default">Localización</a>
-                        <a href="/contacto" class="btn btn-default">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="productos" class="container-fluid">
+    <div class="parent">
+        <div class="child">
+            <div class="multi-contenido">
+                <h1 style="text-align: center;">¿Qué vendemos?</h1>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <p>En nuestro establecimiento puedes encontrar productos de bla bla bla berborrea.
+                            Comprueba nuestras ofertas y promociones!</p>
+                        <p class="centered"><a href="/contacto" class="btn btn-default">Ver ofertas actuales</a></p>
+                    </div>
+                    <div class="col-sm-5">
+                        <table>
+                            <tr>
+                                <td>
+                                    <ul>
+                                        <li>Ferretería</li>
+                                        <li>Fontanería</li>
+                                        <li>Electricidad</li>
+                                        <li>Droguería</a></li>
+                                        <li>Decoración</a></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>Herramientas</li>
+                                        <li>Maquinaria</li>
+                                        <li>EPIs</li>
+                                        <li>Tornillería</a></li>
+                                        <li>Manualidades</a></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>Pintura</li>
+                                        <li>Menaje</li>
+                                        <li>Jardín</li>
+                                        <li>Copias de llaves</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img src="static/images/tienda.jpg" class="img-responsive img-rounded espaciada">
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="static/images/tienda.jpg" class="img-responsive img-rounded espaciada">
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="static/images/tienda.jpg" class="img-responsive img-rounded espaciada">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="localizacion" class="container-fluid" style="padding-bottom:50px;">
+    <div class="parent">
+        <div class="child">
+            <div class="multi-contenido">
+                <h1 class="centered">Encuéntranos</h1>
+
+                <div class="row">
+                    <div class="col-sm-9">
+                        <p>Llámanos al <a href="tel:959330790" class="link-sobre-blanco">959330790</a> o escríbemos a través del formulario, te responderemos al email facilitado.</p>
+                    </div>
+                    <div class="col-sm-3 centered">
+                        <a href="/contacto" class="btn btn-default">Ir al formulario de contacto</a>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top: 10px;">
+                    <div class="col-sm-12">
+                        <h4>Dirección</h4>
+                        <p>
+                            Ferretería Marcial -
+                            C/ del Prado nº 30 -
+                            21410 - Isla Cristina (Huelva)
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="centered" style="margin:0px;padding:0px;overflow:hidden">
+                    <!--<div style="display: inline-block">-->
+                            <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d561.6505788966089!2d-7.325406587116023!3d37.20333282004793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1024f41e9a5fa9%3A0x5ac7041a726848b6!2sFerreteria+Marcial!5e0!3m2!1sen!2ses!4v1555715867084!5m2!1sen!2ses" width="100%" height="100%" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:50%;width:100%;" allowfullscreen></iframe>-->
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d561.6505788966089!2d-7.325406587116023!3d37.20333282004793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1024f41e9a5fa9%3A0x5ac7041a726848b6!2sFerreteria+Marcial!5e0!3m2!1sen!2ses!4v1555715867084!5m2!1sen!2ses" width="100%" height="450px" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:500px;width:100%;" allowfullscreen></iframe>
+                    <!--</div>-->
+                </div>
+                <br>
             </div>
         </div>
     </div>

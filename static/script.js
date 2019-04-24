@@ -18,7 +18,7 @@ $(document).ready(ajusta_footer);
 // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
 function ajusta_footer() {
  // Get the footer
-  var footer = $( "#sticky" )[0];
+  var footer = $( "#footer" )[0];
   //Get window size
   var window_size = window.innerHeight
 
@@ -36,14 +36,13 @@ function ajusta_footer() {
 
   footer.style.visibility = 'visible';
 
-  if ((espacio_libre) >= footer_size) {
+  if ((espacio_libre) >= (footer_size)) {
     footer.classList.add("autofixed")
     console.log(">>>")
   } else {
     footer.classList.remove("autofixed");
     console.log("<<<")
   }
-
 }
 //
 //

@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--<meta name="viewport" content="width=100%; initial-scale=1; maximum-scale=1; minimum-scale=1; user-scalable=no;"-->
     <!--<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">-->
+    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">0-->
     <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">-->
     <link type="text/css" rel="stylesheet" href="../static/styles.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <!--<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>-->
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
+    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
     <script type="text/javascript" charset="utf8" src="{{url_for('static', filename='script.js')}}"></script>
 
     <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/plug-ins/preview/searchPane/dataTables.searchPane.min.css">-->
@@ -31,7 +37,7 @@
 </div>
 
 <!--<nav class="navbar navbar-inverse" id="navbar">-->
-<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">
+<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="175">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -44,11 +50,11 @@
         <div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li class="{% if request.path=='/' %}active{% endif %}" id="menu-logo"><a href="/">Home</a></li>
-                    <li class="{% if request.path=='/productos' %}active{% endif %}"><a href="/productos">Productos</a></li>
+                    <li class="{% if request.path=='/' %}active{% endif %}"><a href="/">Home</a></li>
+                    <!--<li class="{% if request.path=='/productos' %}active{% endif %}"><a href="/productos">Productos</a></li>-->
                     <li class="{% if request.path=='/promociones' %}active{% endif %}"><a href="/promociones">Promociones</a></li>
-                    <li class="{% if request.path=='/localizacion' %}active{% endif %}"><a href="/localizacion">¿Dónde estamos?</a></li>
-                    <li class="{% if request.path=='/contacto' %}active{% endif %}"><a href="/contacto">Contáctanos</a></li>
+                    <!--<li class="{% if request.path=='/localizacion' %}active{% endif %}"><a href="/localizacion">¿Dónde estamos?</a></li>-->
+                    <li class="{% if request.path=='/contacto' %}active{% endif %}"><a href="/contacto">Contacto</a></li>
                     <li class="{% if request.path=='/admin' %}active{% endif %}"><a href="/admin">Admin</a></li>
                 </ul>
             </div>
@@ -59,10 +65,12 @@
 {% block content %}{% endblock %}
 
 
-<footer id="sticky" style="visibility: hidden">
+<div id="footer" style="visibility: hidden;">
     <div class="parent-footer">
         <div class="child-footer">
-            <div class="row">
+
+            <!--FOOTER FOR WIDE SCREEN-->
+            <div class="row" id="footer-wide">
                 <div class="col-sm-1"></div>
                 <div class="col-sm-3 centered">
                     <p></p>
@@ -78,9 +86,17 @@
                     <p>A <a href="uborzz.es">zZLabz</a> work</p>
                 </div>
             </div>
+
+            <!--FOOTER FOR MOBILE-->
+            <div class="row" id="footer-small">
+                <div class="col-sm-12 centered">
+                    Ferretería Marcial - Tlf: 959 33 07 90
+                    <p>A <a href="uborzz.es">zZLabz</a> work</p>
+                </div>
+            </div>
         </div>
     </div>
-</footer>
+</div>
 
 </body>
 
