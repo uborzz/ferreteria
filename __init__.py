@@ -19,7 +19,6 @@ class LoginForm(FlaskForm):
     username = StringField('username', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired()])
 
-
 class User:
     def __init__(self, username):
         self.username = username
@@ -50,6 +49,11 @@ class OfertaForm(FlaskForm):
     submit = SubmitField('Insertar')
 
 
+class NotificacionForm(FlaskForm):
+    mensaje = TextAreaField('Modificar mensaje')
+    submit = SubmitField('Modificar')
+
+
 app = Flask(__name__)
 app.config.from_object(cfg)
 lm = LoginManager()
@@ -57,12 +61,12 @@ lm.init_app(app)
 lm.login_view = 'login'
 
 
-@lm.user_loader
-def load_user(username):
-    u = app.config['USERS_COLLECTION'].find_one({"_id": username})
-    if not u:
-        return None
-    return User(u['_id'])
+# @lm.user_loader
+# def load_user(username):
+#     u = app.config['USERS_COLLECTION'].find_one({"_id": username})
+#     if not u:
+#         return None
+#     return User(u['_id'])
 
 
 CORS(app)   # Config cross origin
@@ -138,7 +142,15 @@ def logout():
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if current_user.is_authenticated:
-        return render_template("admin.html")
+        form = NotificacionForm()
+
+        notificacion = db.notificacion.find_one()
+        if notificacion:
+            mensaje = notificacion['mensaje']
+        else:
+            mensaje = ""
+            
+        return render_template("admin.html", mensaje_notificacion=mensaje, form_notificacion=form)
     else:
         flash("Se necesita login para acceder al panel de administrador.", category='info')
         return redirect(url_for("login"))
