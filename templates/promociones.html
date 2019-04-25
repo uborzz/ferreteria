@@ -15,7 +15,25 @@
         <div class="child">
             <div class="contenido">
             <h1>Promociones</h1>
-            <p>Bleble!</p>
+            Trabajando en ello. Ofertas en el sistema....
+                <table class="table table-stripped table-dark centered table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="centered">Nombre</th>
+                        <th scope="col" class="centered">Descripción</th>
+                        <th scope="col" class="centered">Coste</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for oferta in ofertas %}
+                    <tr>
+                        <td>{{ oferta.name }}</td>
+                        <td>{{ oferta.desc }}</td>
+                        <td>{{ oferta.cost }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
         </div>
         </div>
     </div>

@@ -14,33 +14,57 @@
     <div class="parent">
         <div class="child">
             <div class="contenido">
-            <h1>Administrador</h1>
+            <h1>Panel de Administrador</h1>
             {% include "flash.html" %}
 
-
-            <form method="POST" action="">
+            <form method="POST" action="{{ url_for('modificar_mensaje') }}">
                 {{ form_notificacion.hidden_tag() }}
-                
+                <h2>Mensaje de notificación página principal</h2>
                 <h4>Mensaje actual</h4>
                 <p>{{ mensaje_notificacion }}</p>
                 <fieldset class="form-group"></fieldset>
-                    <div class="form-group">
-                        {{ form_notificacion.mensaje.label(class="form-control-label") }}
-                        {{ form_notificacion.mensaje(class="form-control form-control-sm", rows=1) }}
-                    </div>
-                </fieldset>
                 <div class="form-group">
-                    {{ form_notificacion.submit(class="btn btn-info") }}
+                    {{ form_notificacion.mensaje.label(class="form-control-label") }}
+                    {{ form_notificacion.mensaje(class="form-control form-control-sm", rows=1) }}
                 </div>
+                </fieldset>
+                {{ form_notificacion.submit(class="btn btn-info") }}
             </form>
 
-            <form action="{{ url_for('insertar') }}">
-                <input class="btn btn-info" type="submit" value="Insertar oferta" />
-            </form>
-            <br>
-             <form action="{{ url_for('logout') }}">
-                <input class="btn btn-warning" type="submit" value="Logout" />
-            </form>
+            <h2>Ofertas publicadas en página de promociones</h2>
+                <table class="table table-stripped table-dark centered table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="centered">Identificador</th>
+                        <th scope="col" class="centered">Nombre</th>
+                        <th scope="col" class="centered">Descripción</th>
+                        <th scope="col" class="centered">Coste</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for oferta in ofertas %}
+                    <tr>
+                        <td>{{ oferta._id }}</td>
+                        <td>{{ oferta.name }}</td>
+                        <td>{{ oferta.desc }}</td>
+                        <td>{{ oferta.cost }}</td>
+                        <td><a href="{{ url_for('modificar_oferta', id=oferta._id) }}">Modificar</a> </td>
+                        <td>
+                            <form action="{{ url_for('borrar_oferta', id=oferta._id) }}" method="post">
+                                <button type="submit" value="Borrar" class="btn-link">Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <form action="{{ url_for('insertar_oferta') }}">
+                    <input class="btn btn-info" type="submit" value="Insertar oferta"/>
+                </form>
+                <br>
+                <form action="{{ url_for('logout') }}">
+                    <input class="btn btn-warning" type="submit" value="Logout"/>
+                </form>
             </div>
         </div>
     </div>

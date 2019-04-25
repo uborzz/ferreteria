@@ -7,6 +7,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user, log
 import _configs as cfg
 from flask_cors import CORS
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 from werkzeug.security import check_password_hash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, FloatField, SubmitField, FileField, TextAreaField
@@ -46,7 +47,7 @@ class OfertaForm(FlaskForm):
     cost = FloatField('Precio')
     desc = TextAreaField('Descripción')
     image = FileField('Imagen') #, validators=[regexp('^[^/]\.jpg$')])
-    submit = SubmitField('Insertar')
+    submit = SubmitField('Enviar')
 
 
 class NotificacionForm(FlaskForm):
@@ -101,6 +102,21 @@ users = db.users
 # def get_page(kwargs):
 #     pass
 
+def get_mensaje():
+    notificacion = db.notificacion.find_one()
+    if notificacion:
+        return notificacion['mensaje']
+    else:
+        return ""
+
+
+def get_ofertas():
+    ofertas = db.ofertas.find()
+    if ofertas:
+        return ofertas
+    else:
+        return []
+
 
 #############################################################
     # Http API
@@ -110,13 +126,63 @@ users = db.users
 #     return render_template('home.html')
 
 
-@app.route("/insertar", methods=['GET', 'POST'])
-def insertar():
+@app.route("/mensaje/modificar", methods=["POST"])
+def modificar_mensaje():
+    form = NotificacionForm()
+    if form.validate_on_submit():
+        db.notificacion.update_one({}, {"$set": {"mensaje": form.mensaje.data}}, upsert=True)
+        flash("notificacion modificada correctamente", "success")
+    else:
+        flash("error producido al modificar", "error")
+    return redirect(url_for("admin"))
+
+
+@app.route("/ofertas/insertar", methods=['GET', 'POST'])
+def insertar_oferta():
     form = OfertaForm()
     if request.method == "POST" and form.validate_on_submit():
-        flash('Nueva oferta insertada correctamente. Nombre: {}'.format(form.name.data), 'success')
+        print(form.data)
+        nueva_oferta = {
+            'name': form.data['name'],
+            'cost': form.data['cost'],
+            'desc': form.data['desc'],
+            'image': form.data['image']
+        }
+        res = db.ofertas.insert_one(nueva_oferta)
+        print(res)
+        flash('Nueva oferta insertada correctamente. Nombre de la oferta: {}'.format(form.name.data), 'success')
         return redirect(url_for("admin"))
     return render_template("insertar_oferta.html", title="Insertar Oferta", form=form)
+
+
+@app.route("/ofertas/<id>", methods=['GET', 'POST', 'DELETE'])
+def modificar_oferta(id):
+    form = OfertaForm()
+    if request.method == "POST" and form.validate_on_submit():
+        print(form.data)
+        nueva_oferta = {
+            'name': form.data['name'],
+            'cost': form.data['cost'],
+            'desc': form.data['desc'],
+            'image': form.data['image']
+        }
+        db.ofertas.update_one({"_id": ObjectId(id)}, {"$set": nueva_oferta}, upsert=True)
+        flash('Oferta con el nombre: {} modificada correctamente.'.format(form.name.data), 'success')
+        return redirect(url_for("admin"))
+    elif request.method == "GET":
+        oferta_seleccionada = db.ofertas.find_one({"_id": ObjectId(id)})
+        if oferta_seleccionada:
+            return render_template("modificar_oferta.html", title="Modificar Oferta", form=form, oferta_seleccionada=oferta_seleccionada)
+        else:
+            flash('La oferta seleccionada no está ya en el sistema.', "error")
+            return redirect(url_for("admin"))
+
+
+@app.route("/borrar_oferta/<id>", methods=['GET', 'POST', 'DELETE'])
+def borrar_oferta(id):
+    db.ofertas.delete_one({"_id": ObjectId(id)})
+    return redirect(url_for("admin"))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -143,14 +209,7 @@ def logout():
 def admin():
     if current_user.is_authenticated:
         form = NotificacionForm()
-
-        notificacion = db.notificacion.find_one()
-        if notificacion:
-            mensaje = notificacion['mensaje']
-        else:
-            mensaje = ""
-            
-        return render_template("admin.html", mensaje_notificacion=mensaje, form_notificacion=form)
+        return render_template("admin.html", mensaje_notificacion=get_mensaje(), ofertas=get_ofertas(), form_notificacion=form)
     else:
         flash("Se necesita login para acceder al panel de administrador.", category='info')
         return redirect(url_for("login"))
@@ -166,7 +225,8 @@ def load_user(username):
 # autentioco /
 @app.route('/')
 def index():
-    return render_template('index.html')
+    mensaje = get_mensaje()
+    return render_template('index.html', mensaje=mensaje)
 
 
 @app.route('/contacto')
@@ -176,7 +236,7 @@ def contacto():
 
 @app.route('/promociones')
 def promociones():
-    return render_template('promociones.html')
+    return render_template('promociones.html', ofertas=get_ofertas())
 
 
 @app.route('/test')
