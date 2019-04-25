@@ -9,15 +9,15 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from werkzeug.security import check_password_hash
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired
+from wtforms import StringField, PasswordField, FloatField, SubmitField, FileField, TextAreaField
+from wtforms.validators import DataRequired, regexp
+from wtforms.validators import Length
 
 
 class LoginForm(FlaskForm):
     """Login form to access admin page"""
     username = StringField('username', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired()])
-
 
 
 class User:
@@ -41,6 +41,13 @@ class User:
     def validate_login(password_hash, password):
         return check_password_hash(password_hash, password)
 
+
+class OfertaForm(FlaskForm):
+    name = StringField('Nombre', validators=[DataRequired()])
+    cost = FloatField('Precio')
+    desc = TextAreaField('Descripción')
+    image = FileField('Imagen') #, validators=[regexp('^[^/]\.jpg$')])
+    submit = SubmitField('Insertar')
 
 
 app = Flask(__name__)
@@ -98,6 +105,14 @@ users = db.users
 # def home():
 #     return render_template('home.html')
 
+
+@app.route("/insertar", methods=['GET', 'POST'])
+def insertar():
+    form = OfertaForm()
+    if request.method == "POST" and form.validate_on_submit():
+        flash('Nueva oferta insertada correctamente. Nombre: {}'.format(form.name.data), 'success')
+        return redirect(url_for("admin"))
+    return render_template("insertar_oferta.html", title="Insertar Oferta", form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

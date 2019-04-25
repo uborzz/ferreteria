@@ -129,7 +129,7 @@
      }
 
      #productos ul {
-     padding-left: 23   px;}
+     padding-left: 23px;}
 
  #productos table {
     margin-left:auto;
@@ -173,4 +173,8 @@
 }
 //#localizacion {
     background: #ffffff;
+}
+
+is-invalid {
+    border-color: red;
 }
