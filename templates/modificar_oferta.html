@@ -13,7 +13,7 @@
                 <!--{% include "flash.html" %}-->
                 <h1> {{ title }}</h1>
                 {% include "flash.html" %}
-                <form method="POST" action="">
+                <form method="POST" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}
                     <fieldset class="form-group">
                         <div class="form-group">
@@ -57,15 +57,32 @@
                             {{ form.cost(class="form-control form-control-lg", value=oferta_seleccionada.cost) }}
                             {% endif %}
                         </div>
+
+
                         <div class="form-group">
                             {{ form.image.label(class="form-control-label") }}
-                            {{ form.image() }}
+                            {% if form.image.errors %}
+                                {{ form.image }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.image.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            <!--{{ form.submit }}-->
+                            {% else %}
+                                {{ form.image }}
+                            {% endif %}
                         </div>
                     </fieldset>
                     <div class="form-group">
                         {{ form.submit(class="btn btn-info") }}
                     </div>
                 </form>
+                <div id="imagen-en-base-datos">
+                    <h3>Imagen almacenada en base de datos</h3>
+                    <img src="{{ foto_oferta_url }}">
+                </div>
+                <br>
             </div>
         </div>
     </div>

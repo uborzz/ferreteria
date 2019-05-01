@@ -13,7 +13,7 @@
                 <!--{% include "flash.html" %}-->
                 <h1> {{ title }}</h1>
                 {% include "flash.html" %}
-                <form method="POST" action="">
+                <form method="POST" enctype="multipart/form-data"> <!--multipart/form-data para poder obtener los files-->
                     {{ form.hidden_tag() }}
                     <fieldset class="form-group">
                         <div class="form-group">
@@ -57,7 +57,16 @@
                         </div>
                         <div class="form-group">
                             {{ form.image.label(class="form-control-label") }}
-                            {{ form.image() }}
+                            {% if form.image.errors %}
+                                {{ form.image }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.image.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.image }}
+                            {% endif %}
                         </div>
                     </fieldset>
                     <div class="form-group">

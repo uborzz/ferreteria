@@ -178,3 +178,18 @@
 is-invalid {
     border-color: red;
 }
+
+.horizontal {
+    display: flex;
+    justify-content: center;
+}
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.foto-ofertas {
+top:0; bottom:0; margin:auto;
+}

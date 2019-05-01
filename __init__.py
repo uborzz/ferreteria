@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import requests
+# #############################################################
+#     # IMPORTS
+# #############################################################
+
 from datetime import datetime
 from flask import Flask, render_template, Response, request, json, redirect, url_for, flash, abort
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required, UserMixin
@@ -9,28 +12,84 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from werkzeug.security import check_password_hash
+from werkzeug.utils import secure_filename
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, FloatField, SubmitField, FileField, TextAreaField
+from flask_wtf.file import FileField, FileRequired, FileAllowed
+from wtforms import StringField, PasswordField, FloatField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, regexp
+from os import path, mkdir
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+from PIL import Image
 
 
-class LoginForm(FlaskForm):
-    """Login form to access admin page"""
-    username = StringField('username', validators=[DataRequired()])
-    password = PasswordField('password', validators=[DataRequired()])
+# #############################################################
+#     # INIT
+# #############################################################
+
+app = Flask(__name__)
+app.config.from_object(cfg)     # Read config
+CORS(app)                       # Config cross origin
+
+if not path.exists(cfg.UPLOADED_PHOTOS_DEST):   # Create uploads folder if not created.
+    mkdir(cfg.UPLOADED_PHOTOS_DEST)
+
+photos = UploadSet('photos', IMAGES)    # Config for flask uploads (queremos imagenes only)
+configure_uploads(app, photos)
+patch_request_class(app)                # maximum file size en el request, default 16MB
+
+
+# #############################################################
+#     # Login Manager
+# #############################################################
+
+lm = LoginManager()
+lm.init_app(app)
+lm.login_view = 'login'
+
+
+@lm.user_loader
+def load_user(username):
+    u = users.find_one({"_id": username})
+    if not u:
+        return None
+    return User(u['_id'])
+
+
+# #############################################################
+#     # Database Info
+# #############################################################
+
+db = MongoClient(cfg.DB_URI, maxPoolSize=50, wtimeout=2000)[cfg.DB_NAME]
+users = db.users
+
+
+#############################################################
+    # Scheduler
+#############################################################
+
+# scheduler = BackgroundScheduler()
+# scheduler.start()
+
+
+# #############################################################
+#     # Clases / forms
+# #############################################################
 
 class User:
+    """ Clase user básica para usar con el LoginManager """
     def __init__(self, username):
         self.username = username
-        self.email = None
 
-    def is_authenticated(self):
+    @staticmethod
+    def is_authenticated():
         return True
 
-    def is_active(self):
+    @staticmethod
+    def is_active():
         return True
 
-    def is_anonymous(self):
+    @staticmethod
+    def is_anonymous():
         return False
 
     def get_id(self):
@@ -41,65 +100,35 @@ class User:
         return check_password_hash(password_hash, password)
 
 
+class LoginForm(FlaskForm):
+    """Login form to access admin page"""
+    username = StringField('username', validators=[DataRequired()])
+    password = PasswordField('password', validators=[DataRequired()])
+
+
 class OfertaForm(FlaskForm):
-    name = StringField('Nombre', validators=[DataRequired()])
+    """Formulario Oferta/promocion"""
+    name = StringField('Nombre', validators=[DataRequired(u"Utiliza un nombre!")])
     cost = FloatField('Precio')
-    desc = TextAreaField('Descripción')
-    image = FileField('Imagen') #, validators=[regexp('^[^/]\.jpg$')])
-    submit = SubmitField('Enviar')
+    desc = TextAreaField(u'Descripción', validators=[DataRequired(u"Define una descripción!")])
+    image = FileField(validators=[FileAllowed(photos, u'Solo se pueden enviar imágenes!'), FileRequired(message=u'No has seleccionado un archivo!')])
+    submit = SubmitField(u'Insertar')
+
+
+class ModificacionOfertaForm(OfertaForm):
+    image = FileField(validators=[FileAllowed(photos, u'Solo se pueden enviar imágenes!')])
+    submit = SubmitField(u'Modificar')
 
 
 class NotificacionForm(FlaskForm):
+    """Formulario Mensaje de notificacion"""
     mensaje = TextAreaField('Modificar mensaje')
     submit = SubmitField('Modificar')
 
 
-app = Flask(__name__)
-app.config.from_object(cfg)
-lm = LoginManager()
-lm.init_app(app)
-lm.login_view = 'login'
-
-
-# @lm.user_loader
-# def load_user(username):
-#     u = app.config['USERS_COLLECTION'].find_one({"_id": username})
-#     if not u:
-#         return None
-#     return User(u['_id'])
-
-
-CORS(app)   # Config cross origin
-
-update_on_launch = False
-
-# class LoginForm(FlaskForm):
-#     username = StringField('Username')
-#     password = PasswordField('Password')
-#     submit = SubmitField('Submit')
-
-# #############################################################
-#     # DB_INFO
-# #############################################################
-
-db = MongoClient(cfg.DB_URI, maxPoolSize=50, wtimeout=2000)[cfg.DB_NAME]
-users = db.users
-
-
 #############################################################
-    # Scheduler routine
+    # Services y DB methods
 #############################################################
-
-# scheduler = BackgroundScheduler()
-# scheduler.start()
-
-
-#############################################################
-    # Services/DB methods
-#############################################################
-
-# def get_page(kwargs):
-#     pass
 
 def get_mensaje():
     notificacion = db.notificacion.find_one()
@@ -112,75 +141,73 @@ def get_mensaje():
 def get_ofertas():
     ofertas = db.ofertas.find()
     if ofertas:
+        ofertas = list(ofertas)
+        for oferta in ofertas:
+            oferta['cost'] = '%.2f €' % oferta['cost']  # format 2 decimals.
+            oferta['image'] = photos.url(oferta['image'])
         return ofertas
     else:
         return []
 
 
+def get_ofertas_admin():
+    ofertas = db.ofertas.find()
+    if ofertas:
+        return ofertas
+    else:
+        return []
+
+
+def no_autorizado():
+    return Response(
+        json.dumps({"message": "Don't hack me mon..."}),
+        mimetype='application/json',
+        status=401
+    )
+
+def guarda_imagen_pil(imagen):
+    """
+    imagen: Objeto FileStorage (de flask/werkzeug) que es de algún tipo de imagen.
+    return: Nombre final fichero
+    """
+    filename = str(int(datetime.now().timestamp())) + "-" + secure_filename(imagen.filename)
+    # filename = path.splitext(filename)[0] + ".jpg"
+
+    pil_img = Image.open(imagen)
+    pil_img.thumbnail((300, 200), Image.ANTIALIAS)
+    pil_img.save(path.join(cfg.UPLOADED_PHOTOS_DEST, filename))
+
+    return filename
+
+
 #############################################################
     # Http API
 #############################################################
-# @app.route('/')
-# def home():
-#     return render_template('home.html')
+
+@app.route('/')
+def index():
+    mensaje = get_mensaje()
+    return render_template('index.html', mensaje=mensaje)
 
 
-@app.route("/mensaje/modificar", methods=["POST"])
-def modificar_mensaje():
-    form = NotificacionForm()
-    if form.validate_on_submit():
-        db.notificacion.update_one({}, {"$set": {"mensaje": form.mensaje.data}}, upsert=True)
-        flash("Notificación modificada correctamente", "success")
+@app.route('/contacto')
+def contacto():
+    return render_template('contacto.html')
+
+
+@app.route('/promociones')
+def promociones():
+    return render_template('promociones.html', ofertas=get_ofertas())
+
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if current_user.is_authenticated:
+        form = NotificacionForm()
+        return render_template("admin.html", mensaje_notificacion=get_mensaje(), ofertas=get_ofertas_admin(), form_notificacion=form)
     else:
-        flash("Error producido al modificar", "error")
-    return redirect(url_for("admin"))
-
-
-@app.route("/ofertas/insertar", methods=['GET', 'POST'])
-def insertar_oferta():
-    form = OfertaForm()
-    if request.method == "POST" and form.validate_on_submit():
-        print(form.data)
-        nueva_oferta = {
-            'name': form.data['name'],
-            'cost': form.data['cost'],
-            'desc': form.data['desc'],
-            'image': form.data['image']
-        }
-        res = db.ofertas.insert_one(nueva_oferta)
-        print(res)
-        flash('Nueva oferta insertada correctamente.'.format(form.name.data), 'success')
-        return redirect(url_for("admin"))
-    return render_template("insertar_oferta.html", title="Insertar Oferta", form=form)
-
-
-@app.route("/ofertas/<id>", methods=['GET', 'POST', 'DELETE'])
-def modificar_oferta(id):
-    form = OfertaForm()
-    if request.method == "POST" and form.validate_on_submit():
-        print(form.data)
-        nueva_oferta = {
-            'name': form.data['name'],
-            'cost': form.data['cost'],
-            'desc': form.data['desc'],
-            'image': form.data['image']
-        }
-        db.ofertas.update_one({"_id": ObjectId(id)}, {"$set": nueva_oferta}, upsert=True)
-        flash('Oferta con el nombre: {} modificada correctamente.'.format(form.name.data), 'success')
-        return redirect(url_for("admin"))
-    elif request.method == "GET":
-        oferta_seleccionada = db.ofertas.find_one({"_id": ObjectId(id)})
-        if oferta_seleccionada:
-            return render_template("modificar_oferta.html", title="Modificar Oferta", form=form, oferta_seleccionada=oferta_seleccionada)
-        else:
-            flash('La oferta seleccionada no está ya en el sistema.', "error")
-            return redirect(url_for("admin"))
-
-
-@app.route("/borrar_oferta/<id>", methods=['GET', 'POST', 'DELETE'])
-def borrar_oferta(id):
-    db.ofertas.delete_one({"_id": ObjectId(id)})
-    return redirect(url_for("admin"))
+        flash("Se necesita login para acceder al panel de administrador.", category='info')
+        return redirect(url_for("login"))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -204,45 +231,122 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/admin', methods=['GET', 'POST'])
-def admin():
+@app.route("/mensaje/modificar", methods=["POST"])
+def modificar_mensaje():
     if current_user.is_authenticated:
         form = NotificacionForm()
-        return render_template("admin.html", mensaje_notificacion=get_mensaje(), ofertas=get_ofertas(), form_notificacion=form)
+        if form.validate_on_submit():
+            db.notificacion.update_one({}, {"$set": {"mensaje": form.mensaje.data}}, upsert=True)
+            flash("Notificación modificada correctamente", "success")
+        else:
+            flash("Error producido al modificar", "error")
+        return redirect(url_for("admin"))
     else:
-        flash("Se necesita login para acceder al panel de administrador.", category='info')
-        return redirect(url_for("login"))
+        return no_autorizado()
 
 
-@lm.user_loader
-def load_user(username):
-    u = users.find_one({"_id": username})
-    if not u:
-        return None
-    return User(u['_id'])
+@app.route("/ofertas/insertar", methods=['GET', 'POST'])
+def insertar_oferta():
+    if current_user.is_authenticated:
+        form = OfertaForm()
+        if request.method == "POST" and form.validate_on_submit():
 
-# autentioco /
-@app.route('/')
-def index():
-    mensaje = get_mensaje()
-    return render_template('index.html', mensaje=mensaje)
+            image = form.image.data         # obtiene imagen del form y altera nombre en linea siguiente
+            # filename = photos.save(image)   # guarda imagen a disco
+            filename = guarda_imagen_pil(image)
 
+            nueva_oferta = {
+                'name': form.name.data,
+                'desc': form.desc.data,
+                'cost': form.cost.data,
+                'image': filename
+            }
 
-@app.route('/contacto')
-def contacto():
-    return render_template('contacto.html')
-
-
-@app.route('/promociones')
-def promociones():
-    return render_template('promociones.html', ofertas=get_ofertas())
-
-
-@app.route('/test')
-def html_test():
-    return render_template('test_footer.html')
+            db.ofertas.insert_one(nueva_oferta)
+            flash('Nueva oferta insertada correctamente.', 'success')
+            return redirect(url_for("admin"))
+        return render_template("insertar_oferta.html", title="Insertar Oferta", form=form)
+    else:
+        return no_autorizado()
 
 
+@app.route("/ofertas/<id>", methods=['GET', 'POST'])
+def modificar_oferta(id):
+    if current_user.is_authenticated:
+        form = ModificacionOfertaForm()
+
+        if request.method == "POST" and form.validate_on_submit():
+            nueva_oferta = {
+                'name': form.name.data,
+                'desc': form.desc.data,
+                'cost': form.cost.data,
+            }
+
+            if form.image.data:
+                image = form.image.data  # obtiene imagen del form
+                # print(type(image), image.filename)
+                # filename = photos.save(image)  # guarda imagen directamente a disco
+
+                filename = guarda_imagen_pil(image)
+                nueva_oferta['image'] = filename
+
+            db.ofertas.update_one({"_id": ObjectId(id)}, {"$set": nueva_oferta}, upsert=True)
+            flash('Oferta modificada correctamente.'.format(form.name.data), 'success')
+            return redirect(url_for("admin"))
+
+        elif request.method == "GET":
+            oferta_seleccionada = db.ofertas.find_one({"_id": ObjectId(id)})
+            foto_oferta_url = photos.url(oferta_seleccionada['image'])
+            if oferta_seleccionada:
+                return render_template(
+                   "modificar_oferta.html",
+                   title="Modificar Oferta",
+                   form=form,
+                   oferta_seleccionada=oferta_seleccionada,
+                   foto_oferta_url=foto_oferta_url
+                )
+            else:
+                flash('La oferta seleccionada no está ya en el sistema.', "error")
+                return redirect(url_for("admin"))
+        flash('Algo no ha ido bien :(', "error")
+        return render_template("insertar_oferta.html", title="Insertar Oferta", form=form)
+    else:
+        return no_autorizado()
+
+
+@app.route("/borrar_oferta/<id>", methods=['POST'])  # Equivale al "DELETE" de modificar oferta.
+def borrar_oferta(id):
+    if current_user.is_authenticated:
+        db.ofertas.delete_one({"_id": ObjectId(id)})
+        return redirect(url_for("admin"))
+    else:
+        return no_autorizado()
+
+
+############################################################################################################
+############# Tests Upload Files ###########################################################################
+#############      BORRAR        ###########################################################################
+class UploadForm(FlaskForm):
+    photo = FileField(validators=[FileAllowed(photos, u'Image only!'), FileRequired(u'File was empty!')])
+    submit = SubmitField(u'Upload')
+
+# @app.route("/iii", methods=["GET", "POST"])
+def upload_file():
+    if current_user.is_authenticated:
+        form = UploadForm()
+        if request.method == "POST" and form.validate_on_submit():
+            form.photo.data.filename = str(int(datetime.now().timestamp())) +"-"+ secure_filename(form.photo.data.filename)
+            filename = photos.save(form.photo.data)
+            file_url = photos.url(filename)
+        else:
+            file_url = None
+        return render_template('uploadimage.html', form=form, file_url=file_url)
+
+    else:
+        return no_autorizado()
+
+
+########## Tests POST/GET Basicos
 @app.route('/gettest')
 def get_test():
     return Response(
@@ -263,6 +367,21 @@ def post_test():
         }),
         mimetype='application/json'
     )
+
+########## Tests footer
+
+@app.route('/test')
+def html_test():
+    return render_template('test_footer.html')
+
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+
+
+# #############################################################
+#     # APP Run
+# #############################################################
 
 if __name__ == '__main__':
     # app.run(host="0.0.0.0", port=5000, debug=True)

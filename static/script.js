@@ -13,7 +13,13 @@ window.onscroll = function() {ajusta_footer()};
 window.onresize = function(){ajusta_footer()};
 
 //on load
-$(document).ready(ajusta_footer);
+$(document).ready(function(){
+    ajusta_footer();
+    $('input[type="file"]').change(function(){
+        console.log("Escondiendo imagen guardada.")
+        $('#imagen-en-base-datos')[0].style.visibility = 'hidden'
+    });
+});
 
 // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
 function ajusta_footer() {

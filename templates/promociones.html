@@ -14,27 +14,42 @@
     <div class="parent">
         <div class="child">
             <div class="contenido">
-            <h1>Promociones</h1>
-            Trabajando en ello. Ofertas en el sistema....
-                <table class="table table-stripped table-dark centered table-bordered">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" class="centered">Nombre</th>
-                        <th scope="col" class="centered">Descripción</th>
-                        <th scope="col" class="centered">Coste</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for oferta in ofertas %}
-                    <tr>
-                        <td>{{ oferta.name }}</td>
-                        <td>{{ oferta.desc }}</td>
-                        <td>{{ oferta.cost }}</td>
-                    </tr>
+            <h1 class="centered">Promociones</h1>
+                {% for oferta in ofertas %}
+                <div class="row" style="background-color: #e7e7e7;">
+                    <br>
+                    <!--<div class="col-sm-4" style="text-align: center; position:relative; width:300px; height:200px;">-->
+                    <div class="col-sm-4" style="text-align: center; padding-top: 20px;">
+                        <!--<table class="table table-stripped table-dark centered vertical">-->
+                            <!--<tbody>-->
+                                <!--<tr>-->
+                                    <img src="{{ oferta.image }}" class="img-rounded foto-ofertas">
+                                <!--</tr>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
+                    </div>
+
+                    <div class="col-sm-8">
+                        <table class="table table-stripped table-dark centered">
+                            <tbody>
+                                <tr>
+                                    <td><h3>{{ oferta.name }}</h3>  </td>
+                                </tr>
+                                <tr>
+                                    <td style="white-space: pre-wrap; text-align: left;"><h4>{{ oferta.desc }}</h4></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row" style="background-color: #e7e7e7;">
+                    <div class="col" style="text-align: right; padding-bottom: 0px; padding-right: 40px;">
+                        <h3>{{ oferta.cost }}</h3>
+                    </div>
+                </div>
+                <br>
                     {% endfor %}
-                    </tbody>
-                </table>
-        </div>
+            </div>
         </div>
     </div>
 </div>

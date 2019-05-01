@@ -39,6 +39,7 @@
                         <th scope="col" class="centered">Nombre</th>
                         <th scope="col" class="centered">Descripción</th>
                         <th scope="col" class="centered">Coste</th>
+                        <th scope="col" class="centered">Nombre Imagen</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -46,8 +47,9 @@
                     <tr>
                         <td>{{ oferta._id }}</td>
                         <td>{{ oferta.name }}</td>
-                        <td>{{ oferta.desc }}</td>
+                        <td style="white-space: pre-wrap; text-align: left;">{{ oferta.desc }}</td>
                         <td>{{ oferta.cost }}</td>
+                        <td>{{ oferta.image }}</td>
                         <td><a href="{{ url_for('modificar_oferta', id=oferta._id) }}">Modificar</a> </td>
                         <td>
                             <form action="{{ url_for('borrar_oferta', id=oferta._id) }}" method="post">
