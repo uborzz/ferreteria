@@ -5,21 +5,23 @@
 # #############################################################
 
 from datetime import datetime
-from flask import Flask, render_template, Response, request, json, redirect, url_for, flash, abort
-from flask_login import LoginManager, current_user, login_user, logout_user, login_required, UserMixin
-import _configs as cfg
-from flask_cors import CORS
+from os import path, mkdir
+
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from werkzeug.security import check_password_hash
-from werkzeug.utils import secure_filename
+from PIL import Image
+from flask import Flask, render_template, Response, request, json, redirect, url_for, flash     # abort
+from flask_cors import CORS
+from flask_login import LoginManager, current_user, login_user, logout_user     # login_required, UserMixin
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import StringField, PasswordField, FloatField, SubmitField, TextAreaField
-from wtforms.validators import DataRequired, regexp
-from os import path, mkdir
-from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
-from PIL import Image
+from wtforms.validators import DataRequired     # regexp
+from werkzeug.security import check_password_hash
+from werkzeug.utils import secure_filename
+
+import _configs as cfg
 
 
 # #############################################################
@@ -36,7 +38,7 @@ if not path.exists(cfg.UPLOADED_PHOTOS_DEST):   # Create uploads folder if not c
 photos = UploadSet('photos', IMAGES)    # Config for flask uploads (queremos imagenes only)
 configure_uploads(app, photos)
 patch_request_class(app)                # maximum file size en el request, default 16MB
-
+# ### photos.save(filename)     # No usaremos el save, meteremos a pelo las imagenes ahi tras resize con pillow.
 
 # #############################################################
 #     # Login Manager
