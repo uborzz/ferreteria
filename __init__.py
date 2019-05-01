@@ -13,6 +13,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, FloatField, SubmitField, FileField, TextAreaField
 from wtforms.validators import DataRequired, regexp
 from wtforms.validators import Length
+from __future__ import unicode_literals
 
 
 class LoginForm(FlaskForm):
@@ -131,9 +132,9 @@ def modificar_mensaje():
     form = NotificacionForm()
     if form.validate_on_submit():
         db.notificacion.update_one({}, {"$set": {"mensaje": form.mensaje.data}}, upsert=True)
-        flash("notificacion modificada correctamente", "success")
+        flash("Notificación modificada correctamente", "success")
     else:
-        flash("error producido al modificar", "error")
+        flash("Error producido al modificar", "error")
     return redirect(url_for("admin"))
 
 
