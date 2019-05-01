@@ -12,8 +12,6 @@ from werkzeug.security import check_password_hash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, FloatField, SubmitField, FileField, TextAreaField
 from wtforms.validators import DataRequired, regexp
-from wtforms.validators import Length
-from __future__ import unicode_literals
 
 
 class LoginForm(FlaskForm):
@@ -151,7 +149,7 @@ def insertar_oferta():
         }
         res = db.ofertas.insert_one(nueva_oferta)
         print(res)
-        flash('Nueva oferta insertada correctamente. Nombre de la oferta: {}'.format(form.name.data), 'success')
+        flash('Nueva oferta insertada correctamente.'.format(form.name.data), 'success')
         return redirect(url_for("admin"))
     return render_template("insertar_oferta.html", title="Insertar Oferta", form=form)
 
