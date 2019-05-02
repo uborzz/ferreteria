@@ -67,19 +67,29 @@
 }
 
  @media only screen and (max-width: 767px) {
-     #menu-logo {
+    #menu-logo {
          display: none;
     }
     #footer-wide{
         display:none;
     }
+    .lang-flag {
+        margin-bottom: -10px;
+        padding-right: 5px;
+        padding-top: 10px;
+    }
 }
  @media only screen and (min-width: 768px) {
-     #logo {
+    #logo {
          display: none;
     }
     #footer-small{
         display:none;
+    }
+    .lang-flag {
+        margin-bottom: -45px;
+        padding-right: 20px;
+        padding-top: 20px;
     }
 }
  #footer {
@@ -198,7 +208,4 @@ is-invalid {
 
 .lang-flag {
     text-align: right;
-    padding-top: 20px;
-    margin-bottom: -45px;
-    padding-right: 20px;
 }
