@@ -35,17 +35,18 @@
                 <table class="table table-stripped table-dark centered table-bordered">
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="centered">Identificador</th>
                         <th scope="col" class="centered">Nombre</th>
                         <th scope="col" class="centered">Descripción</th>
                         <th scope="col" class="centered">Coste</th>
                         <th scope="col" class="centered">Nombre Imagen</th>
+                        <th></th>
+                        <th></th>
+                        <th scope="col" class="centered">Identificador</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for oferta in ofertas %}
                     <tr>
-                        <td>{{ oferta._id }}</td>
                         <td>{{ oferta.name }}</td>
                         <td style="white-space: pre-wrap; text-align: left;">{{ oferta.desc }}</td>
                         <td>{{ oferta.cost }}</td>
@@ -56,6 +57,7 @@
                                 <button type="submit" value="Borrar" class="btn-link">Borrar</button>
                             </form>
                         </td>
+                        <td>{{ oferta._id }}</td>
                     </tr>
                     {% endfor %}
                     </tbody>

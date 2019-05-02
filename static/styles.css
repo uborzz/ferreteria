@@ -204,8 +204,15 @@ is-invalid {
     top:0;
     bottom:0;
     margin:auto;
+    margin-bottom: 10px;
 }
 
 .right {
     text-align: right;
+}
+
+.promo-item {
+    background-color: #dddddd;
+    border: 1px solid #ccc;
+    border-radius: 15px;
 }
