@@ -192,6 +192,12 @@ def index():
     return render_template('index.html', mensaje=mensaje)
 
 
+@app.route('/english')
+def english():
+    mensaje = get_mensaje()
+    return render_template('english.html', mensaje=mensaje)
+
+
 @app.route('/contacto')
 def contacto():
     return render_template('contacto.html')
