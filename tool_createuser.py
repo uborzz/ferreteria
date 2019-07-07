@@ -3,11 +3,12 @@
 from werkzeug.security import generate_password_hash
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError
+import _configs as cfg
 
 
 def main():
     # Connect to the DB
-    collection = MongoClient()["ferreteria_marcial"]["users"]
+    collection = MongoClient(cfg.DB_URI)["ferreteria_marcial"]["users"]
 
     # Ask for data to store
     user = input("Enter your username: ")
