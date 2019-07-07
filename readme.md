@@ -22,4 +22,4 @@ DEBUG = True
 ```
 
 ### Corriendo en:
-* [Ferretería Marcial](http://ferreteriamarcial.uborzz.es)
+* [Ferretería Marcial](http://ferreteriamarcial.uborzz.es) - Con Gunicorn+Apache
